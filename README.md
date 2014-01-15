@@ -1,13 +1,10 @@
-Bitchange
+Bamboo
 =========
 
-A currency mod for Minetest. 
+A plant mod for Minetest. 
  
-Read more at the forums topic and 'HELP_ME.txt' for more information. 
+Read more at the forums topic.
 
-Forum link: https://forum.minetest.net/viewtopic.php?id=7821 
+Forum link: https://forum.minetest.net/viewtopic.php?id=8289
 
-License: WTFPL * 
- 
- 
-(*) Everything except the textures of moreores and technic
+License: WTFPL (for everything)
