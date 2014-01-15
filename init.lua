@@ -86,6 +86,8 @@ minetest.register_node("bamboo:slab_v",{
 	}
 })
 
+-- Craftings
+
 minetest.register_craft({
 	output = 'bamboo:block',
 	recipe = {
@@ -152,6 +154,28 @@ minetest.register_craft({
 		{'bamboo:slab_v'},
 	}
 })
+
+-- Fuels
+
+minetest.register_craft({
+	type = "fuel",
+	recipe = "bamboo:bamboo",
+	burntime = 15,
+})
+
+minetest.register_craft({
+	type = "fuel",
+	recipe = "bamboo:block",
+	burntime = 50,
+})
+
+minetest.register_craft({
+	type = "fuel",
+	recipe = "bamboo:block_h",
+	burntime = 50,
+})
+
+--ABMs
 
 minetest.register_abm({
 	nodenames = {"bamboo:bamboo"},
