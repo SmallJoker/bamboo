@@ -3,6 +3,7 @@
 -- Bamboo max high: 10
 
 local ENABLE_GENERATION = true -- enables generation of bamboo
+local ENABLE_STAIRSPLUS = true
 
 minetest.register_node("bamboo:bamboo",{
         description = "Bamboo",
@@ -176,6 +177,27 @@ minetest.register_craft({
         recipe = "bamboo:block_h",
         burntime = 50,
 })
+
+if minetest.get_modpath("moreblocks") and ENABLE_STAIRSPLUS then
+	register_stair_slab_panel_micro(
+		"bamboo",
+		"block",
+		"bamboo:block",
+		{choppy=2, oddly_breakable_by_hand=2, flammable=2},
+        	{
+                	"bamboo_block.png", 
+                	"bamboo_block.png", 
+                	"bamboo_bottom.png", 
+                	"bamboo_bottom.png", 
+                	"bamboo_block.png", 
+                	"bamboo_block.png"
+		},
+		"Bamboo",
+		"block",
+		0
+	)
+	table.insert(circular_saw.known_stairs, "bamboo:block")
+end
 
 --ABMs
 
