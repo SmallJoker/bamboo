@@ -16,7 +16,7 @@ minetest.register_on_generated(function(minp, maxp, seed)
 	if(minp.y < -35 or maxp.y > 50) then
 		return
 	end
-	if(math.random(1,8) ~= 2) then
+	if(math.random(1,5) ~= 2) then
 		-- Making rare...
 		return
 	end
@@ -29,7 +29,7 @@ minetest.register_on_generated(function(minp, maxp, seed)
 			stop = true
 			break
 		end
-		if(cname == "default:dirt_with_grass" and math.random(1,15) == 2) then
+		if(cname == "default:dirt_with_grass" and math.random(1,12) == 2) then
 			if minetest.find_node_near({x=px,y=1,z=pz}, 2, "default:water_source") then
 				make_bamboo({x=px,y=2,z=pz}, math.random(3, 6))
 			end
