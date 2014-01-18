@@ -115,17 +115,18 @@ minetest.register_craft({
 })
 
 minetest.register_craft({
-        output = 'bamboo:slab_h 4',
+        output = 'bamboo:slab_h 6',
         recipe = {
-                {'bamboo:block', 'bamboo:block'},
+                {'bamboo:block', 'bamboo:block', 'bamboo:block'},
         }
 })
 
 minetest.register_craft({
-        output = 'bamboo:slab_v 4',
+        output = 'bamboo:slab_v 6',
         recipe = {
                 {'bamboo:block'},
                 {'bamboo:block'},
+                {'bamboo:block'}
         }
 })
 
