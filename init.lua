@@ -147,15 +147,15 @@ minetest.register_craft({
 minetest.register_craft({
         output = 'bamboo:block',
         recipe = {
-                {'bamboo:slab_h', 'bamboo:slab_h'},
+                {'bamboo:slab_v', 'bamboo:slab_v'},
         }
 })
 
 minetest.register_craft({
         output = 'bamboo:block',
         recipe = {
-                {'bamboo:slab_v'},
-                {'bamboo:slab_v'},
+                {'bamboo:slab_h'},
+                {'bamboo:slab_h'},
         }
 })
 
@@ -205,7 +205,7 @@ end
 minetest.register_abm({
         nodenames = {"bamboo:bamboo"},
         interval = 50,
-        chance = 25,
+        chance = 50,
         action = function(pos, node)
                 if(minetest.get_node_light(pos) < 8) then
                         return
