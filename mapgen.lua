@@ -1,10 +1,10 @@
 function make_bamboo(pos, size)
-	for y=0,size-1 do
+	for y=0, size-1 do
 		local p = {x=pos.x, y=pos.y+y, z=pos.z}
-		local nn = minetest.get_node(p).name
-		if nn == "air" then
+		local node = minetest.get_node(p).name
+		if node == "air" then
 			minetest.set_node(p, {name="bamboo:bamboo"})
-		elseif (nn == "default:dirt" or nn == "default:dirt_with_grass") then
+		elseif node == "default:dirt" or name == "default:dirt_with_grass" then
 			return
 		else
 			break
@@ -13,30 +13,41 @@ function make_bamboo(pos, size)
 end
 
 minetest.register_on_generated(function(minp, maxp, seed)
-	if(minp.y < -35 or maxp.y > 50) then
+	if maxp.y < 2 and minp.y > 0 then
 		return
 	end
-	if(math.random(1,5) ~= 2) then
-		-- Making rare...
-		return
-	end
-	local stop = false
-	for px=minp.x+2,maxp.x-2 do
-	for pz=minp.z+2,maxp.z-2 do
-		local cname = minetest.get_node({x=px,y=1,z=pz}).name
-		if(cname == "default:desert_sand") then
-			-- AAH! Too hot!
-			stop = true
-			break
-		end
-		if(cname == "default:dirt_with_grass" and math.random(1,12) == 2) then
-			if minetest.find_node_near({x=px,y=1,z=pz}, 2, "default:water_source") then
-				make_bamboo({x=px,y=2,z=pz}, math.random(3, 6))
+	
+	local c_grass = minetest.get_content_id("default:dirt_with_grass")
+	local c_desert_sand = minetest.get_content_id("default:desert_sand")
+	local n_bamboo = minetest.get_perlin(8234, 3, 0.6, 100)
+	
+	local vm = minetest.get_voxel_manip()
+	local emin, emax = vm:read_from_map(minp, maxp)
+	local area = VoxelArea:new{MinEdge=emin, MaxEdge=emax}
+	local data = vm:get_data()
+	
+	local rand = PseudoRandom(seed % 8000)
+	for z = minp.z + 2, maxp.z - 2, 4 do
+	for x = minp.x + 2, maxp.x - 2, 4 do
+		local bamboo_amount = math.floor(n_bamboo:get2d({x=x, y=z}) * 7 - 3)
+		for i = 1, bamboo_amount do
+			local p_pos = {
+				x = rand:next(x - 2, x + 2), 
+				y = 0, 
+				z = rand:next(z - 2, z + 2)
+			}
+			
+			local node = data[area:index(p_pos.x, p_pos.y, p_pos.z)]
+			if node == c_desert_sand then
+				-- Too hot
+				return
+			end
+			if node == c_grass and
+					minetest.find_node_near(p_pos, 3, "default:water_source") then
+				p_pos.y = 1
+				make_bamboo(p_pos, rand:next(3, 6))
 			end
 		end
 	end
-		if(stop) then
-			break
-		end
 	end
 end)

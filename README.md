@@ -1,10 +1,10 @@
 Bamboo
 =========
 
-A plant mod for Minetest. 
+This mod adds simple bamboo nodes to your Minetest world.
  
-Read more at the forums topic.
+License for codes and textures: WTFPL
 
-Forum link: https://forum.minetest.net/viewtopic.php?id=8289
+Depends: default, moreblocks (optional)
 
-License: WTFPL (for everything)
+Forum topic: https://forum.minetest.net/viewtopic.php?id=8289
