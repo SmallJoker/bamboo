@@ -31,13 +31,12 @@ minetest.register_node("bamboo:block",{
 
 minetest.register_node("bamboo:block_h",{
         description = "Bamboo block",
-        tiles = {
+        tiles = {"bamboo_block.png", 
                 "bamboo_block.png", 
-                "bamboo_block.png", 
-                "bamboo_bottom.png", 
-                "bamboo_bottom.png", 
-                "bamboo_block.png", 
-                "bamboo_block.png"},
+                "bamboo_block.png^[transformR90", 
+                "bamboo_block.png^[transformR90", 
+				"bamboo_bottom.png", 
+                "bamboo_bottom.png"},
         drawtype = "nodebox",
         paramtype = "light",
         paramtype2 = "facedir",
@@ -53,13 +52,12 @@ minetest.register_node("bamboo:block_h",{
 
 minetest.register_node("bamboo:slab_h",{
         description = "Bamboo slab",
-        tiles = {
+        tiles = {"bamboo_block.png", 
                 "bamboo_block.png", 
-                "bamboo_block.png", 
-                "bamboo_bottom.png", 
-                "bamboo_bottom.png", 
-                "bamboo_block.png", 
-                "bamboo_block.png"},
+                "bamboo_block.png^[transformR90", 
+                "bamboo_block.png^[transformR90", 
+				"bamboo_bottom.png", 
+                "bamboo_bottom.png"},
         drawtype = "nodebox",
         paramtype = "light",
         paramtype2 = "facedir",
