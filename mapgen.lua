@@ -13,26 +13,39 @@ function make_bamboo(pos, size)
 end
 
 minetest.register_on_generated(function(minp, maxp, seed)
-	if minp.y < -35 or maxp.y > 50 then
-		return
-	end
-	if math.random(1, 4) ~= 2 then
-		-- Making rare...
+	if maxp.y < 2 and minp.y > 0 then
 		return
 	end
 	
-	for px = minp.x+2, maxp.x-2 do
-	for pz = minp.z+2, maxp.z-2 do
-		local pos = {x=px, y=1, z=pz}
-		local node = minetest.get_node(pos).name
-		if node == "default:desert_sand" then
-			-- AAH! Too hot!
-			return
-		end
-		if node == "default:dirt_with_grass" and math.random(1, 12) == 2 then
-			if minetest.find_node_near(pos, 3, "default:water_source") then
-				pos.y = pos.y + 1
-				make_bamboo(pos, math.random(3, 6))
+	local c_grass = minetest.get_content_id("default:dirt_with_grass")
+	local c_desert_sand = minetest.get_content_id("default:desert_sand")
+	local n_bamboo = minetest.get_perlin(8234, 3, 0.6, 100)
+	
+	local vm = minetest.get_voxel_manip()
+	local emin, emax = vm:read_from_map(minp, maxp)
+	local area = VoxelArea:new{MinEdge=emin, MaxEdge=emax}
+	local data = vm:get_data()
+	
+	local rand = PseudoRandom(seed % 8000)
+	for z = minp.z + 2, maxp.z - 2, 4 do
+	for x = minp.x + 2, maxp.x - 2, 4 do
+		local bamboo_amount = math.floor(n_bamboo:get2d({x=x, y=z}) * 7 - 3)
+		for i = 1, bamboo_amount do
+			local p_pos = {
+				x = rand:next(x - 2, x + 2), 
+				y = 0, 
+				z = rand:next(z - 2, z + 2)
+			}
+			
+			local node = data[area:index(p_pos.x, p_pos.y, p_pos.z)]
+			if node == c_desert_sand then
+				-- Too hot
+				return
+			end
+			if node == c_grass and
+					minetest.find_node_near(p_pos, 3, "default:water_source") then
+				p_pos.y = 1
+				make_bamboo(p_pos, rand:next(3, 6))
 			end
 		end
 	end
