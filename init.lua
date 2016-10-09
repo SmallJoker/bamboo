@@ -209,7 +209,7 @@ minetest.register_abm({
 		if minetest.get_node_light(pos) < 8 then
 			return
 		end
-		if not minetest.find_node_near(p_pos, 5, {"group:water", "default:water_source"}) then
+		if not minetest.find_node_near(pos, 5, {"group:water", "default:water_source"}) then
 			return
 		end
 		local found_soil = false
