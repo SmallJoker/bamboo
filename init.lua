@@ -2,9 +2,6 @@
 -- License for everything: WTFPL
 -- Bamboo max high: 10
 
-local ENABLE_GENERATION = true -- enables generation of bamboo
-local ENABLE_STAIRSPLUS = true
-
 minetest.register_node("bamboo:bamboo",{
 	description = "Bamboo",
 	tiles = {"bamboo_bamboo.png"},
@@ -29,13 +26,17 @@ minetest.register_node("bamboo:block",{
 	sounds = default.node_sound_wood_defaults(),
 })
 
+
+dofile(minetest.get_modpath("bamboo").."/mapgen.lua")
+
+
 minetest.register_node("bamboo:block_h",{
 	description = "Bamboo block",
-	tiles = {"bamboo_block.png", 
-		"bamboo_block.png", 
-		"bamboo_block.png^[transformR90", 
-		"bamboo_block.png^[transformR90", 
-		"bamboo_bottom.png", 
+	tiles = {"bamboo_block.png",
+		"bamboo_block.png",
+		"bamboo_block.png^[transformR90",
+		"bamboo_block.png^[transformR90",
+		"bamboo_bottom.png",
 		"bamboo_bottom.png"},
 	drawtype = "nodebox",
 	paramtype = "light",
@@ -52,11 +53,11 @@ minetest.register_node("bamboo:block_h",{
 
 minetest.register_node("bamboo:slab_h",{
 	description = "Bamboo slab",
-	tiles = {"bamboo_block.png", 
-		"bamboo_block.png", 
-		"bamboo_block.png^[transformR90", 
-		"bamboo_block.png^[transformR90", 
-				"bamboo_bottom.png", 
+	tiles = {"bamboo_block.png",
+		"bamboo_block.png",
+		"bamboo_block.png^[transformR90",
+		"bamboo_block.png^[transformR90",
+		"bamboo_bottom.png",
 		"bamboo_bottom.png"},
 	drawtype = "nodebox",
 	paramtype = "light",
@@ -177,18 +178,18 @@ minetest.register_craft({
 	burntime = 50,
 })
 
-if minetest.get_modpath("moreblocks") and ENABLE_STAIRSPLUS then
+if minetest.get_modpath("moreblocks") then
 	register_stair_slab_panel_micro(
 		"bamboo",
 		"block",
 		"bamboo:block",
 		{choppy=2, oddly_breakable_by_hand=2, flammable=2},
 		{
-			"bamboo_block.png", 
-			"bamboo_block.png", 
-			"bamboo_bottom.png", 
-			"bamboo_bottom.png", 
-			"bamboo_block.png", 
+			"bamboo_block.png",
+			"bamboo_block.png",
+			"bamboo_bottom.png",
+			"bamboo_bottom.png",
+			"bamboo_block.png",
 			"bamboo_block.png"
 		},
 		"Bamboo",
@@ -208,6 +209,9 @@ minetest.register_abm({
 		if minetest.get_node_light(pos) < 8 then
 			return
 		end
+		if not minetest.find_node_near(p_pos, 5, {"group:water", "default:water_source"}) then
+			return
+		end
 		local found_soil = false
 		for py = -1, -6, -1 do
 			local name = minetest.get_node({x=pos.x, y=pos.y+py, z=pos.z}).name
@@ -224,10 +228,7 @@ minetest.register_abm({
 		for py = 1, 4 do
 			local npos = {x=pos.x,y=pos.y+py,z=pos.z}
 			local name = minetest.get_node(npos).name
-			if name == "air" or name == "default:water_flowing" then
-				if minetest.get_node_light(npos) < 8 then
-					break
-				end
+			if name == "air" then
 				minetest.set_node(npos, {name="bamboo:bamboo"})
 				break
 			elseif name ~= "bamboo:bamboo" then
@@ -236,7 +237,3 @@ minetest.register_abm({
 		end
 	end,
 })
-
-if(ENABLE_GENERATION) then
-	dofile(minetest.get_modpath("bamboo").."/mapgen.lua")
-end
