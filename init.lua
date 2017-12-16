@@ -32,42 +32,15 @@ minetest.register_node("bamboo:block",{
 dofile(minetest.get_modpath("bamboo").."/mapgen.lua")
 
 
-minetest.register_node("bamboo:slab_h",{
-	description = "Bamboo slab",
-	tiles = {"bamboo_block.png",
-		"bamboo_block.png",
-		"bamboo_block.png^[transformR90",
-		"bamboo_block.png^[transformR90",
-		"bamboo_bottom.png",
-		"bamboo_bottom.png"},
-	drawtype = "nodebox",
-	paramtype = "light",
-	paramtype2 = "facedir",
-	groups = {choppy=2,oddly_breakable_by_hand=2,flammable=2},
-	sounds = default.node_sound_wood_defaults(),
-	node_box = {
-		type = "fixed",
-		fixed = {
-			{-0.5, -0.5, -0.5, 0.5, 0.0, 0.5},
-		}
-	}
-})
-
-minetest.register_node("bamboo:slab_v",{
-	description = "Bamboo slab",
-	tiles = {"bamboo_bottom.png", "bamboo_bottom.png", "bamboo_block.png"},
-	drawtype = "nodebox",
-	paramtype = "light",
-	paramtype2 = "facedir",
-	groups = {choppy=2,oddly_breakable_by_hand=2,flammable=2},
-	sounds = default.node_sound_wood_defaults(),
-	node_box = {
-		type = "fixed",
-		fixed = {
-			{-0.5, -0.5, -0.5, 0.5, 0.5, 0},
-		}
-	}
-})
+stairs.register_stair_and_slab( -- creates crafting recipes
+    "bamboo",
+    "bamboo:block",
+    {choppy=2, oddly_breakable_by_hand=2, flammable=2, wood=1},
+    {"bamboo_bottom.png", "bamboo_bottom.png", "bamboo_block.png"},
+    "Bamboo Stair",
+    "Bamboo Slab",
+    default.node_sound_wood_defaults()
+)
 
 -- Craftings
 
@@ -86,40 +59,10 @@ minetest.register_craft({
 })
 
 minetest.register_craft({
-	output = "bamboo:slab_v 6",
-	recipe = {
-		{"bamboo:block"},
-		{"bamboo:block"},
-		{"bamboo:block"}
-	}
-})
-
-minetest.register_craft({
-	output = "bamboo:slab_v",
-	recipe = {
-		{"bamboo:slab_h"},
-	}
-})
-
-minetest.register_craft({
-	output = "bamboo:slab_h",
-	recipe = {
-		{"bamboo:slab_v"},
-	}
-})
-
-minetest.register_craft({
 	output = "bamboo:block",
 	recipe = {
-		{"bamboo:slab_v", "bamboo:slab_v"},
-	}
-})
-
-minetest.register_craft({
-	output = "bamboo:block",
-	recipe = {
-		{"bamboo:slab_h"},
-		{"bamboo:slab_h"},
+		{"bamboo:slab"},
+		{"bamboo:slab"},
 	}
 })
 
