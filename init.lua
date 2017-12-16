@@ -20,36 +20,17 @@ minetest.register_node("bamboo:bamboo",{
 })
 
 minetest.register_node("bamboo:block",{
-	description = "Bamboo block",
+	description = "Bamboo Block",
 	tiles = {"bamboo_bottom.png", "bamboo_bottom.png", "bamboo_block.png"},
 	groups = {choppy=2, oddly_breakable_by_hand=2, flammable=2, wood=1},
 	sounds = default.node_sound_wood_defaults(),
+    paramtype2 = "facedir",
+    on_place = minetest.rotate_node
 })
 
 
 dofile(minetest.get_modpath("bamboo").."/mapgen.lua")
 
-
-minetest.register_node("bamboo:block_h",{
-	description = "Bamboo block",
-	tiles = {"bamboo_block.png",
-		"bamboo_block.png",
-		"bamboo_block.png^[transformR90",
-		"bamboo_block.png^[transformR90",
-		"bamboo_bottom.png",
-		"bamboo_bottom.png"},
-	drawtype = "nodebox",
-	paramtype = "light",
-	paramtype2 = "facedir",
-	groups = {choppy=2,oddly_breakable_by_hand=2,flammable=2,wood=1},
-	sounds = default.node_sound_wood_defaults(),
-	node_box = {
-		type = "fixed",
-		fixed = {
-			{-0.5, -0.5, -0.5, 0.5, 0.5, 0.5},
-		}
-	}
-})
 
 minetest.register_node("bamboo:slab_h",{
 	description = "Bamboo slab",
@@ -94,22 +75,6 @@ minetest.register_craft({
 	output = "bamboo:block",
 	recipe = {
 		{"bamboo:bamboo", "bamboo:bamboo", "bamboo:bamboo"},
-	}
-})
-
-minetest.register_craft({
-	output = "bamboo:block 2",
-	recipe = {
-		{"bamboo:block_h"},
-		{""},
-		{"bamboo:block_h"},
-	}
-})
-
-minetest.register_craft({
-	output = "bamboo:block_h 2",
-	recipe = {
-		{"bamboo:block", "", "bamboo:block"},
 	}
 })
 
@@ -169,12 +134,6 @@ minetest.register_craft({
 minetest.register_craft({
 	type = "fuel",
 	recipe = "bamboo:block",
-	burntime = 50,
-})
-
-minetest.register_craft({
-	type = "fuel",
-	recipe = "bamboo:block_h",
 	burntime = 50,
 })
 
