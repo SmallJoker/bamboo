@@ -30,9 +30,7 @@ minetest.register_node("bamboo:block",{
 
 minetest.register_alias("bamboo:block_h", "bamboo:block")
 
-
 dofile(minetest.get_modpath("bamboo").."/mapgen.lua")
-
 
 stairs.register_stair_and_slab( -- creates crafting recipes
 	"bamboo",
@@ -44,8 +42,23 @@ stairs.register_stair_and_slab( -- creates crafting recipes
 	default.node_sound_wood_defaults()
 )
 
+minetest.register_node("bamboo:slab_v",{
+	description = "Bamboo Slab",
+	tiles = {"bamboo_bottom.png", "bamboo_bottom.png", "bamboo_block.png"},
+	drawtype = "nodebox",
+	paramtype = "light",
+	paramtype2 = "facedir",
+	groups = {choppy=2,oddly_breakable_by_hand=2,flammable=2},
+	sounds = default.node_sound_wood_defaults(),
+	node_box = {
+		type = "fixed",
+		fixed = {
+			{-0.5, -0.5, -0.5, 0.5, 0.5, 0},
+		}
+	}
+})
+
 minetest.register_alias("bamboo:slab_h", "stairs:slab_bamboo")
-minetest.register_alias("bamboo:slab_v", "stairs:slab_bamboo")
 
 -- Craftings
 
@@ -60,6 +73,20 @@ minetest.register_craft({
 	output = "bamboo:slab_h 6",
 	recipe = {
 		{"bamboo:block", "bamboo:block", "bamboo:block"},
+	}
+})
+
+minetest.register_craft({
+	output = "bamboo:slab_v",
+	recipe = {
+		{"stairs:slab_bamboo"},
+	}
+})
+
+minetest.register_craft({
+	output = "stairs:slab_bamboo",
+	recipe = {
+		{"bamboo:slab_v"},
 	}
 })
 
@@ -87,20 +114,20 @@ minetest.register_craft({
 
 if minetest.get_modpath("moreblocks") then
 	register_stair_slab_panel_micro(
-		"bamboo",
-		"block",
-		"bamboo:block",
-		{choppy=2, oddly_breakable_by_hand=2, flammable=2}, {
-			"bamboo_block.png",
-			"bamboo_block.png",
-			"bamboo_bottom.png",
-			"bamboo_bottom.png",
-			"bamboo_block.png",
-			"bamboo_block.png"
-		},
-		"Bamboo",
-		"block",
-		0
+	"bamboo",
+	"block",
+	"bamboo:block",
+	{choppy=2, oddly_breakable_by_hand=2, flammable=2}, {
+		"bamboo_block.png",
+		"bamboo_block.png",
+		"bamboo_bottom.png",
+		"bamboo_bottom.png",
+		"bamboo_block.png",
+		"bamboo_block.png"
+	},
+	"Bamboo",
+	"block",
+	0
 	)
 	table.insert(circular_saw.known_stairs, "bamboo:block")
 end
