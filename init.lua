@@ -42,7 +42,7 @@ minetest.register_node("bamboo:block",{
 
 minetest.register_alias("bamboo:block_h", "bamboo:block")
 
-dofile(minetest.get_modpath("bamboo").."/mapgen.lua")
+dofile(minetest.get_modpath(minetest.get_current_modname()).."/mapgen.lua")
 
 stairs.register_stair_and_slab( -- creates crafting recipes
 	"bamboo",
