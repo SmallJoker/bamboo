@@ -1,10 +1,23 @@
+-- check for MineClone2
+local mcl = minetest.get_modpath("mcl_core")
+
+if mcl then
+    item1 = "mcl_core:water_source"
+    item2 = "mcl_core:dirt"
+    item3 = "mcl_core:dirt_with_grass"
+else
+    item1 = "default:water_source"
+    item2 = "default:dirt"
+    item3 = "default:dirt_with_grass"
+end
+
 function make_bamboo(pos, size)
 	for y=0, size-1 do
 		local p = {x=pos.x, y=pos.y+y, z=pos.z}
 		local node = minetest.get_node(p).name
 		if node == "air" then
 			minetest.set_node(p, {name="bamboo:bamboo"})
-		elseif node == "default:dirt" or name == "default:dirt_with_grass" then
+		elseif node == item2 or name == item3 then
 			return
 		else
 			break
@@ -17,7 +30,7 @@ minetest.register_on_generated(function(minp, maxp, seed)
 		return
 	end
 
-	local c_grass = minetest.get_content_id("default:dirt_with_grass")
+	local c_grass = minetest.get_content_id(item3)
 	local n_bamboo = minetest.get_perlin(8234, 3, 0.6, 100)
 
 	local vm = minetest.get_voxel_manip()
@@ -48,7 +61,7 @@ minetest.register_on_generated(function(minp, maxp, seed)
 			end
 			
 			if found and
-					minetest.find_node_near(p_pos, 5, {"group:water", "default:water_source"}) then
+					minetest.find_node_near(p_pos, 5, {"group:water", item1}) then
 				p_pos.y = p_pos.y + 1
 				make_bamboo(p_pos, rand:next(3, 6))
 			end
