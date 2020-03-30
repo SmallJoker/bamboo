@@ -1,3 +1,17 @@
+-- check for MineClone2
+local mcl = minetest.get_modpath("mcl_core")
+
+local sounditem
+local item_water_source
+
+if mcl then
+    sounditem = mcl_sounds.node_sound_wood_defaults()
+    item_water_source = "mcl_core:water_source"
+else
+    sounditem = default.node_sound_wood_defaults()
+    item_water_source = "default:water_source"
+end
+
 -- [bamboo] mod by Krock
 -- License for everything: WTFPL
 -- Bamboo max high: 10
@@ -8,7 +22,7 @@ minetest.register_node("bamboo:bamboo",{
 	drawtype = "nodebox",
 	paramtype = "light",
 	groups = {choppy=2, oddly_breakable_by_hand=2, flammable=3},
-	sounds = default.node_sound_wood_defaults(),
+	sounds = sounditem,
 	node_box = {
 		type = "fixed",
 		fixed = {
@@ -23,7 +37,7 @@ minetest.register_node("bamboo:block",{
 	description = "Bamboo Block",
 	tiles = {"bamboo_bottom.png", "bamboo_bottom.png", "bamboo_block.png"},
 	groups = {choppy=2, oddly_breakable_by_hand=2, flammable=2, wood=1},
-	sounds = default.node_sound_wood_defaults(),
+	sounds = sounditem,
 	paramtype2 = "facedir",
 	on_place = minetest.rotate_node
 })
@@ -32,15 +46,27 @@ minetest.register_alias("bamboo:block_h", "bamboo:block")
 
 dofile(minetest.get_modpath("bamboo").."/mapgen.lua")
 
-stairs.register_stair_and_slab( -- creates crafting recipes
-	"bamboo",
-	"bamboo:block",
-	{choppy=2, oddly_breakable_by_hand=2, flammable=2, wood=1},
-	{"bamboo_bottom.png", "bamboo_bottom.png", "bamboo_block.png"},
-	"Bamboo Stair",
-	"Bamboo Slab",
-	default.node_sound_wood_defaults()
-)
+if mcl then
+    mcl_stairs.register_stair_and_slab( -- creates crafting recipes
+        "bamboo",
+        "bamboo:block",
+        {choppy=2, oddly_breakable_by_hand=2, flammable=2, wood=1},
+        {"bamboo_bottom.png", "bamboo_bottom.png", "bamboo_block.png"},
+        "Bamboo Stair",
+        "Bamboo Slab",
+        sounditem
+    )
+else
+    stairs.register_stair_and_slab( -- creates crafting recipes
+        "bamboo",
+        "bamboo:block",
+        {choppy=2, oddly_breakable_by_hand=2, flammable=2, wood=1},
+        {"bamboo_bottom.png", "bamboo_bottom.png", "bamboo_block.png"},
+        "Bamboo Stair",
+        "Bamboo Slab",
+        sounditem
+    )
+end
 
 minetest.register_node("bamboo:slab_v",{
 	description = "Bamboo Slab",
@@ -49,7 +75,7 @@ minetest.register_node("bamboo:slab_v",{
 	paramtype = "light",
 	paramtype2 = "facedir",
 	groups = {choppy=2,oddly_breakable_by_hand=2,flammable=2},
-	sounds = default.node_sound_wood_defaults(),
+	sounds = sounditem,
 	node_box = {
 		type = "fixed",
 		fixed = {
@@ -142,7 +168,7 @@ minetest.register_abm({
 		if minetest.get_node_light(pos) < 8 then
 			return
 		end
-		if not minetest.find_node_near(pos, 5, {"group:water", "default:water_source"}) then
+		if not minetest.find_node_near(pos, 5, {"group:water", item_water_source}) then
 			return
 		end
 		local found_soil = false
